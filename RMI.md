@@ -46,7 +46,7 @@ import java.rmi.server.*;
 
 1. 定义了可以让用户远程调用的方法，客户将用它作为服务的类类型，stub和实际的服务都是实现此接口。
 2. 扩展java.rmi.Remote:
-    1. remote接口是一个“记号”接口，不具备方法。这里的扩展是指一个接口继承另一个接口。
+    1. remote接口是一个"记号"接口，不具备方法。这里的扩展是指一个接口继承另一个接口。
 3. 声明所有的方法都会抛出RemoteException
     1. 用户调用远程接口服务，需要注意在stub低层我们使用了网络和I/O,所以一切网络可能发生的事情都会发生。
     2. 客户必须意识到风险，通过处理或声明远程异常来解决。也就是方法应当声明成`public string sayHello() throws RemoteException`
@@ -62,7 +62,7 @@ import java.rmi.server.*;
 1. 这是做实际工作的类，为远程接口中定义的远程方法提供了真正的实现。
 2. 实现远程接口:也就是客户将要调用的方法的接口。`implements MyRemote()`
 3. 扩展`UnicastRemoteObject`
-    - 为了要成为远程服务对象，你的对象需要某些“远程的”功能，最基本的就是扩展`java.rmi.server.UnicastRemoteObject`,让超类来帮助你工作。
+    - 为了要成为远程服务对象，你的对象需要某些"远程的"功能，最基本的就是扩展`java.rmi.server.UnicastRemoteObject`,让超类来帮助你工作。
 4. 设计一个不带变量的构造器，并声明`RemoteException`
     + 新超类`UnicastRemoteObject`带来问题:抛出`RemoteException`。
     + 解决方案:就是你的远程实现声明一个构造器，这样就有一个声明`RemoteException`的地方，这样类被实例化的时候，如果超类的构造器抛出异常，其子类构造器必然会抛出异常。
@@ -122,7 +122,7 @@ try{
 1. 在对于远端JVM池中的方法的调用，在看起来和本地没有什么区别，但是需要注意RemoteException。
 2. 客户如何取得stub类:(一共有两种方法)
     1. 使用lookup找到被挂载的现成的stub类。即可
-    2. 通过“动态类下载”，通过上述操作，序列化的对象可以被标记上一个URL，告诉客户的RMI系统去寻找对象的类文件。而如果在反序列化对象的过程中，如果RMI没有在本地发现类，就会利用HTTP的GET从该URL取得类文件。
+    2. 通过"动态类下载"，通过上述操作，序列化的对象可以被标记上一个URL，告诉客户的RMI系统去寻找对象的类文件。而如果在反序列化对象的过程中，如果RMI没有在本地发现类，就会利用HTTP的GET从该URL取得类文件。
 
 ## 1.6. 关于RMI的一些注意
 1. 忘记在启动远程服务之前先启动rmiregistry(要用Naming。rebind()注册服务，并且保证其运行状态。)
